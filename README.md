@@ -21,19 +21,19 @@ apt-get install ethereum
 For testnet network
 
 ```console
-nohup geth --testnet --rpc --rpcaddr SERVER_ADDRESS --rpccorsdomain "*" &
+nohup geth --testnet --rpc --rpccorsdomain "*" &
 ```
 
 For main network
 
 ```console
-nohup geth --rpc --rpcaddr SERVER_ADDRESS --rpccorsdomain "*" &
+nohup geth --rpc --rpccorsdomain "*" &
 ```
 
 For fast sync
 
 ```console
-nohup geth --fast --testnet --rpc --rpcaddr SERVER_ADDRESS --rpccorsdomain "*" &
+nohup geth --fast --testnet --rpc --rpccorsdomain "*" &
 ```
 
 See geth output
@@ -79,14 +79,15 @@ Replace by **(replace SERVER_ADDRESS)**
 ```
 server {
 	listen 80;
+	listen [::]:80;
 	return 301 https://$host$request_uri;
 }
 server {
 	listen 443 ssl default_server;
 	listen [::]:443 ssl default_server;
   
-  ssl_certificate           /etc/nginx/cert.crt;
-  ssl_certificate_key       /etc/nginx/cert.key;
+	ssl_certificate           /etc/nginx/cert.crt;
+	ssl_certificate_key       /etc/nginx/cert.key;
 
 	location / {
 	      proxy_set_header        Host $host;
@@ -95,7 +96,7 @@ server {
 	      proxy_set_header        X-Forwarded-Proto $scheme;
 
         # Fix the “It appears that your reverse proxy set up is broken" error.
-	      proxy_pass          http://SERVER_ADDRESS:8545;
+	      proxy_pass          http://localhost:8545;
 	      proxy_read_timeout  90;
 	}
 }
