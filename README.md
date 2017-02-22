@@ -56,26 +56,20 @@ pkill geth
 
 ## Install and configure Nginx as a HTTPS proxy
 
-Install
+### Install Nginx
 
 ```console
 apt-get install nginx
 ```
 
-Certificate
-
-```console
-cd /etc/nginx
-openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/cert.key -out /etc/nginx/cert.crt
-```
-
-Config
+### Config Nginx
 
 ```console
 nano /etc/nginx/sites-enabled/default
 ```
 
 Replace by **(replace SERVER_ADDRESS)**
+
 ```
 server {
 	listen 80;
@@ -85,9 +79,14 @@ server {
 server {
 	listen 443 ssl default_server;
 	listen [::]:443 ssl default_server;
-  
-	ssl_certificate           /etc/nginx/cert.crt;
-	ssl_certificate_key       /etc/nginx/cert.key;
+	
+	#ssl_certificate                 /etc/letsencrypt/live/DOMAIN/fullchain.pem;
+	#ssl_certificate_key             /etc/letsencrypt/live/DOMAIN/privkey.pem;
+	#ssl_trusted_certificate         /etc/letsencrypt/live/DOMAIN/chain.pem;
+	
+	location /.well-known {
+	      root              /var/www/DOMAIN/;
+	}
 
 	location / {
 	      proxy_set_header        Host $host;
@@ -102,13 +101,56 @@ server {
 }
 ```
 
-Restart Nginx
+Note that the ssl_certificate config are commented. As the certificate is not generated yet, Nginx will not restard if the files doesn't exist. We will uncomment them later.
+
+### Restart Nginx
 
 ```console
 service nginx restart
+```
+
+### Certificate
+
+```console
+apt-get install letsencrypt
+mkdir /var/www/DOMAIN/
+letsencrypt certonly --webroot -w /var/www/DOMAIN/ -d DOMAIN
+```
+
+### Edit Nginx config to remove the comment ssl lines
+
+```console
+nano /etc/nginx/sites-enabled/default
+```
+
+Uncomment the lines like:
+
+```
+	ssl_certificate                 /etc/letsencrypt/live/DOMAIN/fullchain.pem;
+	ssl_certificate_key             /etc/letsencrypt/live/DOMAIN/privkey.pem;
+	ssl_trusted_certificate         /etc/letsencrypt/live/DOMAIN/chain.pem;
+```
+
+### Restart Nginx
+
+```console
+service nginx restart
+```
+
+### Renew certificate auto
+
+```console
+crontab -e
+```
+
+Add
+
+```console
+37 4 * * * letsencrypt renew >/dev/null 2>&1
 ```
 
 ## Source
 
 https://github.com/ethereum/go-ethereum/wiki/Installation-Instructions-for-Ubuntu
 https://www.digitalocean.com/community/tutorials/how-to-configure-nginx-with-ssl-as-a-reverse-proxy-for-jenkins
+https://certbot.eff.org/#ubuntuxenial-nginx
