@@ -1,5 +1,5 @@
 # Online-Node
-How to install an Ethereum online node
+How to install an Ethereum online node with HTTPS
 
 ## Prequirement
 
@@ -149,7 +149,7 @@ letsencrypt renew --dry-run --agree-tos
 ```
 
 Don't mind the `Registering without email!`.
-If every is fine, add the cron
+If everything is fine, add the cron
 
 ```console
 crontab -e
