@@ -142,6 +142,15 @@ service nginx restart
 
 ### Renew certificate auto
 
+First try to check if the renew work
+
+```console
+letsencrypt renew --dry-run --agree-tos
+```
+
+Don't mind the `Registering without email!`.
+If every is fine, add the cron
+
 ```console
 crontab -e
 ```
