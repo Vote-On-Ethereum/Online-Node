@@ -74,7 +74,14 @@ Replace by **(replace SERVER_ADDRESS)**
 server {
 	listen 80;
 	listen [::]:80;
-	return 301 https://$host$request_uri;
+	
+	location /.well-known {
+	      root              /var/www/DOMAIN/;
+	}
+	
+	location / {
+		return 301 https://$host$request_uri;
+	}
 }
 server {
 	listen 443 ssl default_server;
@@ -83,10 +90,6 @@ server {
 	#ssl_certificate                 /etc/letsencrypt/live/DOMAIN/fullchain.pem;
 	#ssl_certificate_key             /etc/letsencrypt/live/DOMAIN/privkey.pem;
 	#ssl_trusted_certificate         /etc/letsencrypt/live/DOMAIN/chain.pem;
-	
-	location /.well-known {
-	      root              /var/www/DOMAIN/;
-	}
 
 	location / {
 	      proxy_set_header        Host $host;
