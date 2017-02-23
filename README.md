@@ -38,7 +38,7 @@ apt-get update
 apt-get install ethereum
 ```
 
-### Running geth in background (replace SERVER_ADDRESS)
+### Running geth in background
 
 For testnet network
 
