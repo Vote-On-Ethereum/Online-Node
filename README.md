@@ -5,6 +5,28 @@ How to install an Ethereum online node with HTTPS
 
 Ubuntu 16.04
 
+## Add swap
+
+```console
+fallocate -l 4G /swapfile
+chmod 600 /swapfile
+mkswap /swapfile
+swapon /swapfile
+```
+
+Make it permanent
+
+```console
+nano /etc/fstab
+```
+
+Add
+
+```
+/swapfile   none    swap    sw    0   0
+```
+
+
 ## Geth
 
 ### Install geth
@@ -21,25 +43,37 @@ apt-get install ethereum
 For testnet network
 
 ```console
-nohup geth --testnet --rpc --rpccorsdomain "*" &
+nohup geth --testnet &
 ```
 
 For main network
 
 ```console
-nohup geth --rpc --rpccorsdomain "*" &
+nohup geth &
 ```
 
 For fast sync
 
 ```console
-nohup geth --fast --testnet --rpc --rpccorsdomain "*" &
+nohup geth --fast
 ```
 
 For light node (download only header)
 
 ```console
-nohup geth --light --testnet --rpc --rpccorsdomain "*" &
+nohup geth --light &
+```
+
+Enable localhost rpc
+
+```console
+nohup geth --rpc --rpccorsdomain "*" &
+```
+
+Enable rpc and expose it to an IP
+
+```console
+nohup geth --rpc --rpcaddr "IP_OF_SERVER" --rpccorsdomain "*" &
 ```
 
 See geth output
@@ -176,3 +210,5 @@ https://www.digitalocean.com/community/tutorials/how-to-configure-nginx-with-ssl
 https://certbot.eff.org/#ubuntuxenial-nginx
 
 https://github.com/ethereum/go-ethereum/wiki/Command-Line-Options
+
+https://www.digitalocean.com/community/tutorials/how-to-add-swap-on-ubuntu-14-04
