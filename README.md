@@ -36,6 +36,12 @@ For fast sync
 nohup geth --fast --testnet --rpc --rpccorsdomain "*" &
 ```
 
+For light node (download only header)
+
+```console
+nohup geth --light --testnet --rpc --rpccorsdomain "*" &
+```
+
 See geth output
 
 ```console
@@ -166,3 +172,4 @@ Add
 https://github.com/ethereum/go-ethereum/wiki/Installation-Instructions-for-Ubuntu
 https://www.digitalocean.com/community/tutorials/how-to-configure-nginx-with-ssl-as-a-reverse-proxy-for-jenkins
 https://certbot.eff.org/#ubuntuxenial-nginx
+https://github.com/ethereum/go-ethereum/wiki/Command-Line-Options
