@@ -40,6 +40,12 @@ apt-get install ethereum
 
 ### Running geth in background
 
+#### Good command
+
+```console
+nohup geth --light --testnet --rpc --rpcaddr "IP_TO_EXPOSE_IF_NO_SSL" --rpccorsdomain "*" --ipcdisable &
+```
+
 For testnet network
 
 ```console
